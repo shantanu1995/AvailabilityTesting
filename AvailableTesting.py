@@ -35,8 +35,9 @@ def main():
         testname="Test" + str(i)
         if value != "HTTP/1.1 200":
             test_cases.append(TestCase(testname, str(key), 1, str(value), 'failure'))
+            test_cases[i].add_failure_info('Unable to Connect')
         else:
-            test_cases.append(TestCase(testname, str(key), 1, str(value),'success'))
+            test_cases.append(TestCase(testname, str(key), 1, str(value),''))
 
     ts = TestSuite("my test suite", test_cases)
     print(TestSuite.to_xml_string([ts]))
