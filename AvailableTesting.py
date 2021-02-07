@@ -29,17 +29,24 @@ def main():
             output[key]=stdout.decode("utf-8").rstrip()
 
     print(output)
-"""
-test_cases=[]
-for i, (key, value) in enumerate(output.items()):
-    if value != "HTTP/1.1 200":
-        test_cases.append([TestCase('Test' + str(i), key, 1, value, 'failure')])
-    else:
-        test_cases.append([TestCase('Test' + str(i), key, 1, value)])
 
-ts = [TestSuite("my test suite", test_cases)]
-print(TestSuite.to_xml_string(ts, prettyprint=False))
-"""
+    test_cases=[]
+    for i, (key, value) in enumerate(output.items()):
+        testname="Test" + str(i)
+        if value != "HTTP/1.1 200":
+            test_cases.append(TestCase(testname, str(key), 1, str(value), 'failure'))
+        else:
+            test_cases.append(TestCase(testname, str(key), 1, str(value),'success'))
 
+    ts = TestSuite("my test suite", test_cases)
+    print(TestSuite.to_xml_string([ts]))
+    with open('output.xml', 'w') as f:
+        TestSuite.to_file(f, [ts], prettyprint=True)
+"""
+test_cases = [TestCase('Test1', 'some.class.name', 123.345, 'I am stdout!', 'I am stderr!')]
+ts = TestSuite("my test suite", test_cases)
+# pretty printing is on by default but can be disabled using prettyprint=False
+print(TestSuite.to_xml_string([ts]))
+"""
 if __name__ == "__main__":
     main()
